@@ -25,3 +25,23 @@ class HTMLNode:
     
     def __eq__(self, htmlnode_2):
         return self.tag == htmlnode_2.tag and self.value == htmlnode_2.value and self.children == htmlnode_2.children and self.props == htmlnode_2.props
+    
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props=None):
+        super().__init__(tag, value, None, props)
+    
+    def to_html(self):
+        if self.value == None:
+            raise ValueError
+        if self.tag == None:
+            return f"{self.value}"
+        else:
+            to_leaf = ""
+            to_leaf += f"<{self.tag}"
+            if self.props:
+                to_leaf += f" {self.props_to_html()}"
+            to_leaf += f">{self.value}</{self.tag}>"
+            return to_leaf
+        
+    def __eq__(self, leafnode_2):
+        return self.tag == leafnode_2.tag and self.value == leafnode_2.value and self.props == leafnode_2.props

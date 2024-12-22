@@ -29,6 +29,24 @@ class HTMLTextNode3(unittest.TestCase):
         self.assertEqual(node.children, [HTMLNode(tag="b", value="bold")])
         self.assertEqual(node.props, {"href": "https://www.example.com"})
 
+class LeafTextNode1(unittest.TestCase):
+    def test_leaf(self):
+        node = LeafNode(
+            tag="a",
+            value="Click me!",
+            props={"href": "https://www.google.com"}
+                        )
+        expected = '<a href="https://www.google.com">Click me!</a>'
+        self.assertEqual(node.to_html(), expected)
+
+class LeafTextNode2(unittest.TestCase):
+    def test_leaf(self):
+        node = LeafNode(
+            tag="b",
+            value="Santa Baby",
+                        )
+        expected = '<b>Santa Baby</b>'
+        self.assertEqual(node.to_html(), expected)
 
 
 if __name__ == "__main__":
