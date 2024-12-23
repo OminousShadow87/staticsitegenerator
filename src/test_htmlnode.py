@@ -48,6 +48,60 @@ class LeafTextNode2(unittest.TestCase):
         expected = '<b>Santa Baby</b>'
         self.assertEqual(node.to_html(), expected)
 
+class ParentNode1(unittest.TestCase):
+    def test_parent(self):
+        node = ParentNode("div", [
+            ParentNode("section", [
+                ParentNode("article", [
+                    LeafNode("h1", "Inception"),
+                    ParentNode("p", [
+                        LeafNode("b", "We need to go"),
+                        LeafNode(None, " "),
+                        LeafNode("i", "deeper"),
+                    ])
+                ])
+            ])
+        ])
+        expected = '<div><section><article><h1>Inception</h1><p><b>We need to go</b> <i>deeper</i></p></article></section></div>'
+        self.assertEqual(node.to_html(), expected)
+
+class ParentNode2(unittest.TestCase):
+    def test_parent(self):
+        node = ParentNode("", [
+            ParentNode("section", [
+                ParentNode("article", [
+                    LeafNode("h1", "Inception"),
+                    ParentNode("p", [
+                        LeafNode("b", "We need to go"),
+                        LeafNode(None, " "),
+                        LeafNode("i", "deeper"),
+                    ])
+                ])
+            ])
+        ])
+        self.assertRaisesRegex(ValueError, "No tag")
+
+class ParentNode3(unittest.TestCase):
+    def test_parent(self):
+        node = ParentNode("div", None, None)
+        with self.assertRaisesRegex(ValueError, "No children"):
+            node.to_html()
+
+
+class ParentNode4(unittest.TestCase):
+    def test_parent(self):
+        node = ParentNode("div", None, None)
+        with self.assertRaisesRegex(ValueError, "No children"):
+            node.to_html()
+
+    def test_parent_no_tag(self):
+        node = ParentNode(None, ["some child"], None)
+        with self.assertRaisesRegex(ValueError, "No tag"):
+            node.to_html()
+
+    def test_parent_valid(self):
+        node = ParentNode("div", [LeafNode("p", "hello")], None)
+        self.assertEqual(node.to_html(), "<div><p>hello</p></div>")
 
 if __name__ == "__main__":
     unittest.main()

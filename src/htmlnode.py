@@ -46,7 +46,7 @@ class LeafNode(HTMLNode):
     def __eq__(self, node_2):
         return self.tag == node_2.tag and self.value == node_2.value and self.props == node_2.props
     
-    class ParentNode(HTMLNode):
+class ParentNode(HTMLNode):
     def __init__(self, tag, children, props=None):
         super().__init__(tag, None, children, props)
     
@@ -54,9 +54,13 @@ class LeafNode(HTMLNode):
         if self.children == None:
             raise ValueError ("No children")
         if self.tag == None:
-            raise ValueError ("No Tag")
+            raise ValueError ("No tag")
         else:
-            
+            daddy_string = f"<{self.tag}>"
+            for child in self.children:
+                daddy_string += child.to_html()
+            daddy_string += f"</{self.tag}>"
+            return daddy_string
         
     def __eq__(self, node_2):
         return self.tag == node_2.tag and self.children == node_2.children and self.props == node_2.props
