@@ -18,3 +18,17 @@ def text_node_to_html_node(text_node):
             return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
         case _:
             raise Exception ("cannot match text type")
+
+def split_nodes_delimiter(old_nodes, delimiter, text_type):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type == TextType.NORMAL_TEXT:
+            segments = node.text.split(delimiter)
+            for index, segment in enumerate(segments):
+                if index % 2 == 0:
+                    new_nodes.append(TextNode(segment, TextType.NORMAL_TEXT))
+                else:
+                    new_nodes.append(TextNode(segment, text_type))
+        else:
+            new_nodes.append(node)
+    return new_nodes
