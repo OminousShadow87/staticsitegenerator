@@ -1,7 +1,7 @@
 import unittest
 
 from textnode import *
-from txt2html import *
+from funcs import *
 
 
 class TestTextNode1(unittest.TestCase):
