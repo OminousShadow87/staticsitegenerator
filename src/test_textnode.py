@@ -4,6 +4,42 @@ from textnode import *
 from funcs import *
 
 
+class TestMark2Blocks(unittest.TestCase):
+    def testuno(self):
+        input = "Battle of the Bands\nSex Bob-Ombs vs The Clash at Demonhead\n\nSex Bob-Ombs\nScott Pilgrim\nStephen Stills\nKim Pine\n\nThe Clash at Demonhead\nEnvy Adams\nTodd Ingram\nLynette Guycott"
+        expected = [
+            "Battle of the Bands\nSex Bob-Ombs vs The Clash at Demonhead",
+            "Sex Bob-Ombs\nScott Pilgrim\nStephen Stills\nKim Pine",
+            "The Clash at Demonhead\nEnvy Adams\nTodd Ingram\nLynette Guycott"
+        ]
+        result = markdown_to_blocks(input)
+        self.assertEqual(result, expected)
+
+    def testdos(self):
+        input = "     Battle of the Bands\nSex Bob-Ombs vs The Clash at Demonhead     \n\n\n\n\n"
+        expected = [
+            "Battle of the Bands\nSex Bob-Ombs vs The Clash at Demonhead",
+        ]
+        result = markdown_to_blocks(input)
+        self.assertEqual(result, expected)
+
+    def testtres(self):
+        input = "     Battle of the Bands\nSex Bob-Ombs vs The Clash at Demonhead     \n\nSex Bob-Ombs\nScott Pilgrim\nStephen Stills\nKim Pine\n\n\n\n\n\nThe Clash at Demonhead\nEnvy Adams\nTodd Ingram\nLynette Guycott"
+        expected = [
+            "Battle of the Bands\nSex Bob-Ombs vs The Clash at Demonhead",
+            "Sex Bob-Ombs\nScott Pilgrim\nStephen Stills\nKim Pine",
+            "The Clash at Demonhead\nEnvy Adams\nTodd Ingram\nLynette Guycott"
+        ]
+        result = markdown_to_blocks(input)
+        self.assertEqual(result, expected)
+
+    def testquad(self):
+        input = "    "
+        expected = []
+        result = markdown_to_blocks(input)
+        self.assertEqual(result, expected)
+
+
 class TestTextNode1(unittest.TestCase):
     def test_eq(self):
         node = TextNode("This is a text node", TextType.BOLD_TEXT)
