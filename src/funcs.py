@@ -84,3 +84,25 @@ def markdown_to_blocks(markdown):
         if text.strip():
             block_str.append(text.strip())
     return block_str
+
+# function below identifies type of markdown
+def block_to_block_type(block):
+    if block.startswith("```") and block.endswith("```"): 
+        return "code"
+    elif (block.startswith("# ") or 
+        block.startswith("## ") or 
+        block.startswith("### ") or 
+        block.startswith("#### ") or 
+        block.startswith("##### ") or 
+        block.startswith("###### ")):
+        return "heading"
+    lines = block.split("\n")
+    if all(line.startswith(">") for line in lines):
+        return "quote"
+    elif all(line.startswith("* ") for line in lines) or all(line.startswith("- ") for line in lines):
+        return "unordered_list"
+    for i in range(1, len(lines) + 1):
+        expected = f"{i}. "
+        if not lines[i-1].startswith(expected):
+            return "paragraph"
+    return "ordered_list"
