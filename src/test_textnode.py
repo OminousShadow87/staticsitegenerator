@@ -2,6 +2,7 @@ import unittest
 
 from textnode import *
 from funcs import *
+from mark2html import *
 
 
 class TestMark2Blocks(unittest.TestCase):
