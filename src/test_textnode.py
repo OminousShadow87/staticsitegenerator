@@ -3,7 +3,27 @@ import unittest
 from textnode import *
 from funcs import *
 from mark2html import *
+class Testmarkdown_to_html_node(unittest.TestCase):
 
+    def test_code_block_conversion(self):
+        markdown = "```\ncode snippet\n```"
+        expected = "<div><pre><code>code snippet</code></pre></div>"
+        self.assertEqual(markdown_to_html_node(markdown), expected)
+
+    def test_heading_conversion(self):
+        markdown = "### Heading Three"
+        expected = "<div><h3>Heading Three</h3></div>"
+        self.assertEqual(markdown_to_html_node(markdown), expected)
+
+    def test_ordered_list_conversion(self):
+        markdown = "1. First item\n2. Second item"
+        expected = "<div><ol><li>First item</li><li>Second item</li></ol></div>"
+        self.assertEqual(markdown_to_html_node(markdown), expected)
+
+    def test_unordered_list_conversion(self):
+        markdown = "- First item\n- Second item"
+        expected = "<div><ul><li>First item</li><li>Second item</li></ul></div>"
+        self.assertEqual(markdown_to_html_node(markdown), expected)
 
 class TestMark2Blocks(unittest.TestCase):
     def testuno(self):
