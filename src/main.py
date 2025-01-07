@@ -6,14 +6,24 @@ from funcs import *
 
 
 
+dir_path_static = "./static"
+dir_path_public = "./public"
+dir_path_content = "./content"
+template_path = "./template.html"
+
+
 def main():
-    public_dir = "/home/breeze/workspace/github.com/breeze/staticsitegenerator/public"
-    static_dir = "/home/breeze/workspace/github.com/breeze/staticsitegenerator/static"
-    copy_directory(static_dir, public_dir)
-    from_path = "/home/breeze/workspace/github.com/breeze/staticsitegenerator/content/index.md"
-    dest_path = "/home/breeze/workspace/github.com/breeze/staticsitegenerator/public/index.html"
-    template = "/home/breeze/workspace/github.com/breeze/staticsitegenerator/template.html"
-    generate_page(from_path, template, dest_path)
+    print("Deleting public directory...")
+    if os.path.exists(dir_path_public):
+        shutil.rmtree(dir_path_public)
+
+    print("Copying static files to public directory...")
+    copy_directory(dir_path_static, dir_path_public)
+
+    print("Generating content...")
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public)
+
+
 
 def copy_directory(current_dir, destination_dir):
     if os.path.exists(destination_dir):
