@@ -1,7 +1,13 @@
 import unittest
 
 from htmlnode import *
+from funcs import *
 
+test_node = TextNode("*didn't ruin it*", TextType.NORMAL_TEXT)
+nodes = split_nodes_delimiter([test_node], "*", TextType.ITALIC_TEXT)
+# Print each node's text and type to see what we get
+for node in nodes:
+    print(f"Text: '{node.text}', Type: {node.text_type}")
 
 class HTMLTextNode1(unittest.TestCase):
     def test_to_html(self):

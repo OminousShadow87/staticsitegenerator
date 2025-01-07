@@ -2,7 +2,8 @@ import unittest
 
 from textnode import *
 from funcs import *
-from mark2html import *
+from htmlnode import *
+
 class Testmarkdown_to_html_node(unittest.TestCase):
 
     def test_code_block_conversion(self):
