@@ -140,39 +140,36 @@ def markdown_to_html_node(markdown):
             case "heading":
                 hash_count = len(block) - len(block.lstrip('#'))
                 heading_text = block[hash_count:].strip()
-                heading_node = LeafNode(tag = f"h{hash_count}", value = heading_text)
+                heading_node = ParentNode(tag = f"h{hash_count}", children=text_to_children(heading_text))
                 papa.children.append(heading_node)
             case "ordered_list":
                 list_parent = ParentNode(tag = "ol", children = [])
                 for line in block.splitlines():
                     list_text = line.split(maxsplit=1)[1].strip() 
-                    list_leaf = LeafNode(tag = "li", value = list_text)
+                    list_leaf = ParentNode(tag = "li", children = text_to_children(list_text))
                     list_parent.children.append(list_leaf)  
                 papa.children.append(list_parent)
             case "unordered_list":
                 list_parent = ParentNode(tag = "ul", children = [])
                 for line in block.splitlines():
                     list_text = line[1:].strip()
-                    list_leaf = LeafNode(tag = "li", value = list_text)
+                    list_leaf = ParentNode(tag = "li", children = text_to_children(list_text))
                     list_parent.children.append(list_leaf)  
                 papa.children.append(list_parent)               
             case "quote":
                 quote_text = block.lstrip(">").strip()
-                quote_node = LeafNode(tag = "blockquote", value = quote_text)
+                quote_node = ParentNode(tag = "blockquote", children = text_to_children(quote_text))
                 papa.children.append(quote_node)
             case "paragraph":
                 pg_text = block.strip()
-                pg_node = LeafNode(tag = "p", value = pg_text)
+                pg_node = ParentNode(tag="p", children=text_to_children(pg_text))
                 papa.children.append(pg_node)
     return papa
 
-def process_inline_styles(text):
+def text_to_children(text):
     text_nodes = text_to_textnodes(text)
-    html_output = []
+    children = []
     for text_node in text_nodes:
         html_node = text_node_to_html_node(text_node)
-        if html_node.tag:
-            html_output.append(f"<{html_node.tag}>{html_node.content}</{html_node.tag}>")
-        else:
-            html_output.append(html_node.content)
-    return ''.join(html_output)
+        children.append(html_node)
+    return children
